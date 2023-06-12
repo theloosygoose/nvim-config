@@ -23,6 +23,7 @@ return require('packer').startup(function(use)
   use ( 'nvim-lua/plenary.nvim' )
   use ( 'theprimeagen/harpoon' )
   use ( 'tpope/vim-fugitive' )
+  use ( 'tpope/vim-surround' )
   use {
 	  'VonHeikemen/lsp-zero.nvim',
 	  branch = 'v2.x',
@@ -43,5 +44,13 @@ return require('packer').startup(function(use)
 	  {'L3MON4D3/LuaSnip'},     -- Required
   	}
   }
-
+  -- install without yarn or npm
+  use ({
+      "iamcco/markdown-preview.nvim",
+      run = function() vim.fn["mkdp#util#install"]() end,
+  })
+  use {
+      "windwp/nvim-autopairs",
+      config = function() require("nvim-autopairs").setup {} end
+  }
 end)
