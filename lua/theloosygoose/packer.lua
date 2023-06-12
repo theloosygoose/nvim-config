@@ -20,4 +20,8 @@ return require('packer').startup(function(use)
 	{run = ':TSUpdate'}
   })
 
+  use ( 'nvim-lua/plenary.nvim' )
+  use ( 'theprimeagen/harpoon' )
+  use ( 'tpope/vim-fugitive' )
+
 end)
