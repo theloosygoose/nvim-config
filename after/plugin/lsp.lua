@@ -1,3 +1,5 @@
+local lspconfig = require("lspconfig")
+
 local lsp = require('lsp-zero').preset({
     {
         float_border = 'rounded',
@@ -19,10 +21,11 @@ local lsp = require('lsp-zero').preset({
     }
 })
 
+require('mason').setup()
+require('mason-lspconfig').setup()
+
 lsp.on_attach(function(client, bufnr)
   lsp.default_keymaps({buffer = bufnr})
-
-  vim.keymap.set('n', 'gr', '<cmd>Telescope lsp_references<cr>', {})
 end)
 
 lsp.set_sign_icons({
@@ -41,6 +44,28 @@ local cmp_action = require('lsp-zero').cmp_action()
 require('luasnip.loaders.from_vscode').lazy_load()
 
 cmp.setup({
+    preselect = 'item',
+    completion = {
+        completeopt = 'menu,menuone,noinsert'
+    },
+    formatting = {
+    -- changing the order of fields so the icon is the first
+    fields = {'menu', 'abbr', 'kind'},
+
+    -- here is where the change happens
+    format = function(entry, item)
+      local menu_icon = {
+        nvim_lsp = 'λ',
+        luasnip = '⋗',
+        buffer = 'Ω',
+        path = '🖫',
+        nvim_lua = 'Π',
+      }
+
+      item.menu = menu_icon[entry.source.name]
+      return item
+    end,
+  },
   sources = {
       {name = 'path'},
       {name = 'nvim_lsp'},
